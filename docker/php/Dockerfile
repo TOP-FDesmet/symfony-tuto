@@ -17,3 +17,5 @@ RUN apk update \
     && apk add libpq-dev && docker-php-ext-install pdo_pgsql
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+CMD ["php-fpm"]
