@@ -7,3 +7,7 @@
 # Form
 - Create form
 `php bin/console make:form`
+---
+# Validator
+- Create validator
+`php bin/console make:validator`
