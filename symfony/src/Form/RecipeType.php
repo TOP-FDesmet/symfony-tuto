@@ -7,11 +7,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Sequentially;
 
 class RecipeType extends AbstractType
 {
@@ -20,11 +24,14 @@ class RecipeType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre',
+                'empty_data' => '',
             ])
             ->add('slug', TextType::class, [
                 'required' => false,
             ])
-            ->add('content')
+            ->add('content', TextareaType::class, [
+                'empty_data' => '',
+            ])
             ->add('duration')
             ->add('save', SubmitType::class)
             ->addEventListener(FormEvents::PRE_SUBMIT, $this->autoslug(...))
@@ -59,6 +66,7 @@ class RecipeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Recipe::class,
+            'validation_groups' => ['Default', 'Extra'],
         ]);
     }
 }
